@@ -49,13 +49,6 @@ This command executes the full ETL pipeline: extract → validate → transform 
 - Cleaned and enriched customer dataset in Parquet format
 - Ready for ML modeling, BI dashboards, or retention strategy analysis
 
-## Next Steps
-
-- Add Airflow orchestration for scheduling
-- Integrate with cloud storage (S3, Azure Blob)
-- Serve enriched data via REST API for real-time scoring
-- Extend with MLlib for churn prediction modeling
-
 ## License
 
 This project is for educational and portfolio purposes. Dataset sourced from Kaggle under public license.
