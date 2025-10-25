@@ -39,7 +39,7 @@ This project uses the [Telco Customer Churn dataset](https://www.kaggle.com/data
 ##  How to Run
 
 ```bash
-python jobs/run_etl.py
+pipeline/run_etl.py
 ```
 
 This command executes the full ETL pipeline: extract → validate → transform → enrich → load.
