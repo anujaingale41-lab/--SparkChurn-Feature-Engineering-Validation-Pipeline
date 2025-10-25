@@ -1,0 +1,29 @@
+import pytest
+from pyspark.sql import SparkSession
+from validate import validate_data
+
+@pytest.fixture(scope="module")
+def spark():
+    return SparkSession.builder.appName("TestValidate").getOrCreate()
+
+def test_validate_removes_nulls(spark):
+    data = [("NY", None, 415, "No", "No", 0, 100.0, 80, 17.0, 200.0, 90, 16.0, 150.0, 100, 7.0, 10.0, 5, 2.5, 1, "False")]
+    columns = ["State", "Account length", "Area code", "International plan", "Voice mail plan",
+               "Number vmail messages", "Total day minutes", "Total day calls", "Total day charge",
+               "Total eve minutes", "Total eve calls", "Total eve charge", "Total night minutes",
+               "Total night calls", "Total night charge", "Total intl minutes", "Total intl calls",
+               "Total intl charge", "Customer service calls", "Churn"]
+    df = spark.createDataFrame(data, columns)
+    validated = validate_data(df)
+    assert validated.count() == 0
+
+def test_validate_filters_negative_values(spark):
+    data = [("NY", 100, 415, "No", "No", 0, -10.0, 80, 17.0, 200.0, 90, 16.0, 150.0, 100, 7.0, 10.0, 5, 2.5, 1, "False")]
+    columns = ["State", "Account length", "Area code", "International plan", "Voice mail plan",
+               "Number vmail messages", "Total day minutes", "Total day calls", "Total day charge",
+               "Total eve minutes", "Total eve calls", "Total eve charge", "Total night minutes",
+               "Total night calls", "Total night charge", "Total intl minutes", "Total intl calls",
+               "Total intl charge", "Customer service calls", "Churn"]
+    df = spark.createDataFrame(data, columns)
+    validated = validate_data(df)
+    assert validated.count() == 0
